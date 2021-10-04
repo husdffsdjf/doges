@@ -1,24 +1,29 @@
 <template>
-  <div class="CardList px-60">
-    <Card
-      class="CardList__item"
-      v-for="item in list"
-      :key="item.src"
-      :imageData="item"
-      :favouriteList="favouriteList"
-      @addToFavourites="addToFavourites"
-      @removeFromFavourites="removeFromFavourites"
-    />
+  <div>
+    <div class="CardList px-60">
+      <Card
+        class="CardList__item"
+        v-for="item in list"
+        :key="item.src"
+        :imageData="item"
+        :favouriteList="favouriteList"
+        @addToFavourites="addToFavourites"
+        @removeFromFavourites="removeFromFavourites"
+      />
+    </div>
+    <LazyLoading @load="loadMore"/>
   </div>
 </template>
 
 <script>
 import Card from '@/components/Card';
+import LazyLoading from '@/components/LazyLoading';
 
 export default {
   name: 'CardList',
   components: {
     Card,
+    LazyLoading,
   },
   props: ['list', 'favouriteList'],
   methods: {
@@ -27,6 +32,9 @@ export default {
     },
     removeFromFavourites(data) {
       this.$emit('removeFromFavourites', data)
+    },
+    loadMore() {
+      this.$emit('loadMore')
     },
   }
 }

@@ -5,6 +5,7 @@
       :favouriteList="dogsFavouriteList"
       @addToFavourites="addToFavourites"
       @removeFromFavourites="removeFromFavourites"
+      @loadMore="loadMore"
     />
   </div>
 </template>
@@ -20,6 +21,7 @@ export default {
   },
   mounted() {
     this.loadDogs();
+    this.loadFovourites();
   },
   computed: {
     ...mapGetters('dogs', [
@@ -29,10 +31,14 @@ export default {
   },
   methods: {
     ...mapActions('dogs', {
+      loadFovourites: 'loadFovourites',
       loadDogs: 'loadDogs',
       addToFavouritesDogs: 'addToFavourites',
       removeFromFavouritesDogs: 'removeFromFavourites',
     }),
+    loadMore() {
+      this.loadDogs();
+    },
     addToFavourites(data) {
       this.addToFavouritesDogs(data);
     },
