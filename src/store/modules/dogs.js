@@ -57,7 +57,6 @@ export default {
       if (state.breedsList.length) return;
       try {
         const { data: { message: dogs } } = await axios.get(`https://dog.ceo/api/breeds/list/all`);
-        console.log(dogs);
         commit('addBreeds', Object.keys(dogs));
       } catch(err) {
         console.log(err);
@@ -70,8 +69,7 @@ export default {
       if(dogsLoading) return;
       dogsLoading = true;
       try {
-        const url = breed ? `https://dog.ceo/api/breed/${breed}/images/random/${amount}` : `https://dog.ceo/api/breeds/image/random/${amount}`
-        console.log(breed, url);
+        const url = breed ? `https://dog.ceo/api/breed/${breed}/images/random/${amount}` : `https://dog.ceo/api/breeds/image/random/${amount}`;
         const { data: { message: dogs } } = await axios.get(url);
         commit('addDogs', dogs);
       } catch(err) {

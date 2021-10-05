@@ -1,5 +1,5 @@
 <template>
-  <div class="Tags px-60">
+  <div class="Tags">
     <button class="Tags__toggle" @click="toggleTags">
       <span>Породы</span>
       <span class="Tags__toggle__icon material-icons" v-html='getIcon'></span>
