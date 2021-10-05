@@ -23,7 +23,6 @@ export default {
   }),
   mutations: {
     addDogs(state, dogs) {
-      // const uniqueDogs = dogs.filter((value) => !~state.dogsList.indexOf(value));
       const dosgData = dogs.map(dog => getDataFromUrl(dog));
       state.dogsList.push(...dosgData);
     },
@@ -78,18 +77,10 @@ export default {
       dogsLoading = false;
     },
     async addToFavourites({ commit }, dog) {
-      try {
-        commit('addToFavourites', dog);
-      } catch(err) {
-        console.log(err);
-      }
+      commit('addToFavourites', dog);
     },
     async removeFromFavourites({ commit }, dog) {
-      try {
-        commit('removeFromFavourites', dog);
-      } catch(err) {
-        console.log(err);
-      }
+      commit('removeFromFavourites', dog);
     },
   },
   getters: {

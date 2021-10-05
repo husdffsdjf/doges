@@ -1,5 +1,5 @@
 <template>
-  <div class="LazyLoading" ref="LazyLoading">x</div>
+  <div class="LazyLoading" ref="LazyLoading">loading...</div>
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
     }
   },
   mounted() {
+    this.$emit('load');
     window.addEventListener('scroll', this.isVisible);
   },
   beforeDestroy() {

@@ -11,7 +11,7 @@
         @removeFromFavourites="removeFromFavourites"
       />
     </div>
-    <LazyLoading @load="loadMore"/>
+    <LazyLoading v-if="isLazyLoading" @load="loadMore"/>
   </div>
 </template>
 
@@ -24,6 +24,11 @@ export default {
   components: {
     Card,
     LazyLoading,
+  },
+  computed: {
+    isLazyLoading() {
+      return this.$route.name !== 'Favourites';
+    }
   },
   props: ['list', 'favouriteList'],
   methods: {
@@ -46,6 +51,11 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.CardList__item:first-child {
+  width: 91vw;
+  height: 45vw;
 }
 
 .CardList__item {

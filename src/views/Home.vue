@@ -7,8 +7,8 @@
     <CardList
       :list="sortedBreedList"
       :favouriteList="dogsFavouriteList"
-      @addToFavourites="addToFavourites"
-      @removeFromFavourites="removeFromFavourites"
+      @addToFavourites="addToFavouritesDogs"
+      @removeFromFavourites="removeFromFavouritesDogs"
       @loadMore="loadMore"
     />
   </div>
@@ -37,7 +37,6 @@ export default {
     isSort: false,
   }),
   mounted() {
-    this.loadMore();
     this.loadFovourites();
     this.loadBreeds();
   },
@@ -64,14 +63,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions('dogs', {
-      loadFovourites: 'loadFovourites',
-      loadBreeds: 'loadBreeds',
-      loadDogs: 'loadDogs',
-      clearDogs: 'clearDogs',
-      addToFavouritesDogs: 'addToFavourites',
-      removeFromFavouritesDogs: 'removeFromFavourites',
-    }),
+    ...mapActions('dogs', [
+      'loadFovourites',
+      'loadBreeds',
+      'loadDogs',
+      'clearDogs',
+      'addToFavourites',
+      'removeFromFavourites',
+    ]),
     changeSort(status) {
       this.isSort = status;
     },
@@ -82,11 +81,11 @@ export default {
         this.loadDogs();
       }
     },
-    addToFavourites(data) {
-      this.addToFavouritesDogs(data);
+    addToFavouritesDogs(data) {
+      this.addToFavourites(data);
     },
-    removeFromFavourites(data) {
-      this.removeFromFavouritesDogs(data);
+    removeFromFavouritesDogs(data) {
+      this.removeFromFavourites(data);
     },
   },
   beforeDestroy() {
