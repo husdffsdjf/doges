@@ -53,14 +53,4 @@ export default {
 </script>
 
 <style scoped>
-.LazyLoading {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.LazyLoading__item {
-  margin-top: 30px;
-}
 </style>

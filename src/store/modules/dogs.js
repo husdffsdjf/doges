@@ -15,6 +15,7 @@ let dogsLoading = false;
 export default {
   namespaced: true,
   state: () => ({
+    breedsList: [],
     dogsList: [],
     dogsFavouriteList: [],
     dogsTags: [],
@@ -25,6 +26,9 @@ export default {
       // const uniqueDogs = dogs.filter((value) => !~state.dogsList.indexOf(value));
       const dosgData = dogs.map(dog => getDataFromUrl(dog));
       state.dogsList.push(...dosgData);
+    },
+    addBreeds(state, dogs) {
+      state.breedsList = dogs;
     },
     setFavourites(state, dogs) {
       state.dogsFavouriteList = dogs;
@@ -40,17 +44,35 @@ export default {
       state.dogsFavouriteList = filteredDogs;
       storeFavourites(state.dogsFavouriteList);
     },
+    clearDogs(state) {
+      state.dogsList = [];
+    },
   },
   actions: {
     async loadFovourites({ commit }) {
       const favouritesDogs = getStoredFavourites();
       commit('setFavourites', favouritesDogs);
     },
-    async loadDogs({ commit }, amount = 20) {
+    async loadBreeds({ state, commit }) {
+      if (state.breedsList.length) return;
+      try {
+        const { data: { message: dogs } } = await axios.get(`https://dog.ceo/api/breeds/list/all`);
+        console.log(dogs);
+        commit('addBreeds', Object.keys(dogs));
+      } catch(err) {
+        console.log(err);
+      }
+    },
+    async clearDogs({ commit }) {
+      commit('clearDogs');
+    },
+    async loadDogs({ commit }, breed='', amount = 20) {
       if(dogsLoading) return;
       dogsLoading = true;
       try {
-        const { data: { message: dogs } } = await axios.get(`https://dog.ceo/api/breeds/image/random/${amount}`);
+        const url = breed ? `https://dog.ceo/api/breed/${breed}/images/random/${amount}` : `https://dog.ceo/api/breeds/image/random/${amount}`
+        console.log(breed, url);
+        const { data: { message: dogs } } = await axios.get(url);
         commit('addDogs', dogs);
       } catch(err) {
         console.log(err);
@@ -73,6 +95,7 @@ export default {
     },
   },
   getters: {
+    breedsList: state => state.breedsList,
     dogsList: state => state.dogsList,
     dogsFavouriteList: state => state.dogsFavouriteList,
   },

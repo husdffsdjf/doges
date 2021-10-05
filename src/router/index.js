@@ -11,6 +11,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/tags/:tag',
+    name: 'Tag',
+    component: Home
+  },
+  {
     path: '/favourites',
     name: 'Favourites',
     component: () => import('../views/Favourites.vue')

@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Tags :tags="breedsList"/>
     <CardList
       :list="dogsList"
       :favouriteList="dogsFavouriteList"
@@ -13,18 +14,28 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import CardList from '@/components/CardList'
+import Tags from '@/components/Tags'
 
 export default {
   name: 'Home',
   components: {
     CardList,
+    Tags,
+  },
+  watch:{
+    async $route (){
+      await this.clearDogs();
+      this.loadMore();
+    }
   },
   mounted() {
-    this.loadDogs();
+    this.loadMore();
     this.loadFovourites();
+    this.loadBreeds();
   },
   computed: {
     ...mapGetters('dogs', [
+      'breedsList',
       'dogsList',
       'dogsFavouriteList',
     ]),
@@ -32,12 +43,18 @@ export default {
   methods: {
     ...mapActions('dogs', {
       loadFovourites: 'loadFovourites',
+      loadBreeds: 'loadBreeds',
       loadDogs: 'loadDogs',
+      clearDogs: 'clearDogs',
       addToFavouritesDogs: 'addToFavourites',
       removeFromFavouritesDogs: 'removeFromFavourites',
     }),
     loadMore() {
-      this.loadDogs();
+      if(this.$route.name === 'Tag') {
+        this.loadDogs(this.$route.params.tag);
+      } else {
+        this.loadDogs();
+      }
     },
     addToFavourites(data) {
       this.addToFavouritesDogs(data);
@@ -45,6 +62,9 @@ export default {
     removeFromFavourites(data) {
       this.removeFromFavouritesDogs(data);
     },
-  }
+  },
+  beforeDestroy() {
+    this.clearDogs();
+  },
 }
 </script>
